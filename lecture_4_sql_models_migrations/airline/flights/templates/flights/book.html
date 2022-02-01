@@ -11,10 +11,10 @@
 <div>
   <form action="{% url 'book' flight.id %}" method="POST">
     {% csrf_token %}
-    <label for="passenger_id">Choose a passenger:</label>
-    <select name="passenger_id" id="passenger_id">
-      {% for passenger in passengers %}
-      <option value={{ passenger.id }}>{{ passenger.first }} {{ passenger.last }}</option>
+    <label for="non_passenger_id">Choose a passenger:</label>
+    <select name="non_passenger_id" id="non_passenger_id">
+      {% for non_passenger in non_passengers %}
+      <option value={{ non_passenger.id }}>{{ non_passenger.first }} {{ non_passenger.last }}</option>
       {% endfor %}
     </select><br>
     <input type="submit">

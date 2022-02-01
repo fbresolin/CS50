@@ -14,21 +14,22 @@ def index(request):
 
 
 def flight(request, flight_id):
+    flight = Flight.objects.get(id=flight_id)
     return(render(request, "flights/flight.html", {
-        "flight": Flight.objects.get(id=flight_id),
-        "passengers": Flight.objects.get(id=flight_id).passengers.all(),
+        "flight": flight,
+        "passengers": flight.passengers.all(),
     }))
 
 
 def book(request, flight_id):
+    flight = Flight.objects.get(id=flight_id)
     if request.method == "POST":
-        passenger = Passenger.objects.get(id=request.POST["passenger_id"])
-        flight = Flight.objects.get(id=flight_id)
+        passenger = Passenger.objects.get(id=request.POST["non_passenger_id"])
         passenger.flights.add(flight)
         passenger.save()
-        return HttpResponseRedirect(reverse("flight", args=flight_id))
+        return HttpResponseRedirect(reverse("flight", args=(flight.id,)))
     else:
         return(render(request, "flights/book.html", {
-            "flight": Flight.objects.get(id=flight_id),
-            "passengers": Passenger.objects.all(),
+            "flight": flight,
+            "non_passengers": Passenger.objects.exclude(flights=flight),
         }))
